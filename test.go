@@ -1,27 +1,46 @@
+// OCP Open-Closed Principle
 package main
 
-import "fmt"
-
-type Vertex3 struct {
-	X, Y float64
+//Pet define a pet interface
+type Pet interface {
+	eat()
+	sleep()
 }
 
-func ScaleFunc(v *Vertex3, f float64) {
-	v.X = v.X * f
-	v.Y = v.Y * f
+//Dog define two functions in a struct
+type Dog struct {
+	name string
+	age  int
 }
 
-func (v *Vertex3) scale(f float64) {
-	v.X = v.X * f
-	v.Y = v.Y * f
+type Cat struct {
+	name string
+	age  int
 }
+
+// Dog implement Pet's method
+func (dog Dog) eat() {
+	println("eat")
+}
+
+// Cat implement Pet's method
+func (cat Cat) eat() {
+	println("cat eat")
+}
+
+func (cat Cat) sleep() {
+	println("cat eat")
+}
+
+type Person struct{}
+
+func (person Person) care(pet Pet) {
+	pet.eat()
+	pet.sleep()
+}
+
 func main() {
-	v := Vertex3{2, 3}
-	fmt.Println(v)
-	ScaleFunc(&v, 10)
-	fmt.Println(v)
-
-	p := Vertex3{2, 3}
-	(&p).scale(12)
-	fmt.Println(p)
+	cat := Cat{}
+	per := Person{}
+	per.care(cat)
 }

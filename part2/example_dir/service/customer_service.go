@@ -2,6 +2,6 @@ package service
 
 import "fmt"
 
-func TestUserService() {
-	fmt.Println("test user service")
+func TestCustomerUserService() {
+	fmt.Println("TestCustomerUserService")
 }

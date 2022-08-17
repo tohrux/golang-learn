@@ -5,23 +5,69 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"net/http"
 )
 
+type Product struct {
+	gorm.Model
+	Code  string
+	Price uint
+}
+
+var dsn = "root:Password.@tcp(127.0.0.1:3306)/go_db?charset=utf8mb4&parseTime=true"
+
 var db *sql.DB
 
-func initGin() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+func gormInit() {
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+
+	if err != nil {
+		panic("failed to connect database")
+	}
+	//create
+	var p Product
+	db.AutoMigrate(&p)
+
+	//insert
+	//db.Create(&Product{
+	//	Code:  "1001",
+	//	Price: 200,
+	//})
+
+	//read
+	//db.First(&p, 2)
+	//db.First(&p, "code=?", "D22")
+	//fmt.Printf("p:%v\n", p)
+
+	//update
+	//db.First(&p, 1)
+	//单值
+	//db.Model(&p).Update("price", 200)
+	//多值
+	//db.Model(&p).Updates(Product{Price: 1000, Code: "kk"})
+
+	//delete
+	//db.First(&p, 3)
+	//db.Delete(&p)
+
+}
+func insert() {
+
+}
+
+func main() {
+	//err := initDB()
+	//if err != nil {
+	//	fmt.Printf("err: %v\n", err)
+	//} else {
+	//	fmt.Println("连接成功")
+	//}
+	gormInit()
 }
 
 func initDB() (err error) {
-	dsn := "root:Password.@tcp(127.0.0.1:3306)/go_db?charset=utf8mb4&parseTime=true"
 	db, err = sql.Open("mysql", dsn)
 
 	if err != nil {
@@ -119,15 +165,12 @@ func deleteData(id int) {
 	fmt.Printf("AffectedRows:%v\n", rows)
 }
 
-func main() {
-	err := initDB()
-	if err != nil {
-		fmt.Printf("err: %v\n", err)
-	} else {
-		fmt.Println("连接成功")
-	}
-	//QueryOneRowById(1)
-	deleteData(5)
-	QueryAllRow()
-
+func initGin() {
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
+	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

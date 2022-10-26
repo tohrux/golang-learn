@@ -2,20 +2,27 @@ package main
 
 import "fmt"
 
+type Name struct {
+	jojo string
+}
+
+func (this Name) Print() {
+	println("p1")
+}
+func (this *Name) Print2() {
+	println("p2")
+}
+
+type Employee struct {
+	ID       int
+	Name     string
+	Salary   string
+	Position string
+}
+
+var dilbert Employee
+var ip *string
+
 func main() {
-	var m = map[string]int{
-		"A": 21,
-		"B": 22,
-		"C": 23,
-	}
-	counter := 0
-	for k, v := range m {
-		println(v)
-		if counter == 0 {
-			delete(m, "A")
-		}
-		counter++
-		fmt.Println(k, v)
-	}
-	fmt.Println("counter is ", counter)
+	fmt.Printf("%x", ip)
 }

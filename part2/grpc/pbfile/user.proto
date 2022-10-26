@@ -1,11 +1,12 @@
 syntax = "proto3";
 
 
-option go_package="../jojoService";
+option go_package="../service";
 
-package jojoService;
+package Service;
 
 message User{
-  string username = 1;
-  int32 age = 2;
+  string Username=2;
+  int32 Age=1;
+  optional string  Password= 3;
 }

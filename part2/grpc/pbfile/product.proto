@@ -1,0 +1,22 @@
+syntax = "proto3";
+option go_package = "../service";
+
+
+//指定等会文件生成出来的package
+package service;
+
+//定义request model
+message ProductRequest {
+  int32 prod_id = 1;
+}
+
+message ProductResponse {
+  int32 prod_stock = 1;
+}
+
+service ProdService{
+  rpc GetProductStock(ProductRequest) returns(ProductResponse);
+}
+
+
+//定义服务主体
